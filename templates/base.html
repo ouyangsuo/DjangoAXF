@@ -1,37 +1,53 @@
+<!--我是对用户可见的,请注意你的言行-->
+{# 我是对用户不可见的,隐私内容写在我肚子里 #}
+
+{# 加载静态资源 #}
 {% load static %}
+
+{# 页面内容 #}
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+
+    {#TODO#}
     <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    {# 引入全局样式，bootstrap，轮播框架 #}
     <link rel="stylesheet" href="{% static 'css/reset.css' %}">
     <link rel="stylesheet" href="{% static 'css/bootstrap.css' %}">
     <link rel="stylesheet" href="{% static 'css/swiper.css' %}">
-    {% block extCSS %}
 
+    {# 挖坑：让子类页面引入自己的样式 #}
+    {% block extCSS %}
     {% endblock %}
+
+    {# 接收并显示外部传入的变量 #}
     <title>{{ title }}</title>
 </head>
 <body>
 
+{# 挖坑让子类自行定义header #}
 {% block header %}
-
 {% endblock %}
 
+{# 挖坑让子类自行定义内容 #}
 {% block content %}
-
 {% endblock %}
 
+{# 挖坑让子类自行定义页脚 #}
 {% block footer %}
-
 {% endblock %}
 
+{# 引入公共脚本:jq,bootstrap,全局脚本，轮播框架脚本 #}
 <script type="text/javascript" src="{% static 'js/jquery.js' %}"></script>
 <script type="text/javascript" src="{% static 'js/bootstrap.js' %}"></script>
 <script type="text/javascript" src="{% static 'js/swiper.jquery.js' %}"></script>
 <script type="text/javascript" src="{% static 'js/base.js' %}"></script>
-{% block EXTJS %}
 
+{# 挖坑让子类自行引入外部脚本 #}
+{% block EXTJS %}
 {% endblock %}
+
 </body>
 </html>

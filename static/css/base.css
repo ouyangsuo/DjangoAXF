@@ -11,6 +11,7 @@ body {
     background: #eee;
 }
 
+/*对页眉和页脚使用横向铺满，固定高度，最上层的固定布局*/
 header, footer {
     width: 100%;
     height: 1.5rem;
@@ -21,10 +22,18 @@ header, footer {
     display: flex;
 }
 
+/*页眉津贴左上角显示*/
 header {
-    background: yellow;
+    background: darkgray;
     top: 0;
     left: 0;
+    height: 1.5rem;
+    line-height: 1.5rem;
+}
+
+header div{
+    width: 100%;
+    text-align: center;
 }
 
 footer {

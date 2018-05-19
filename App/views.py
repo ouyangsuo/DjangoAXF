@@ -13,24 +13,20 @@ from App.models import MainWheel, MainNav, MainMustBuy, MainShop, MainShow, Food
 # 首页
 def home(request):
 
+    # 查询数据
     wheels = MainWheel.objects.all()
-
     navs = MainNav.objects.all()
-
     mustbuys = MainMustBuy.objects.all()
-
     shops = MainShop.objects.all()
-
-    shop0 = shops[0:1]
-
-    shop1_3 = shops[1:3]
-
-    shop3_7 = shops[3:7]
-
-    shop7_11 = shops[7:11]
-
     mainshows = MainShow.objects.all()
 
+    # 加工数据
+    shop0 = shops[0:1]
+    shop1_3 = shops[1:3]
+    shop3_7 = shops[3:7]
+    shop7_11 = shops[7:11]
+
+    # 组织数据
     data = {
         "title": "首页",
         "wheels": wheels,
@@ -42,26 +38,35 @@ def home(request):
         "shop7_11": shop7_11,
         "mainshows": mainshows,
     }
+
+    # 携带数据渲染页面
     return render(request, 'home/home.html',context= data)
 
 # 闪购
 def market(request):
+    # 重定向到marketWithParams方法所对应的路由
+    # args=("104749", "0","0")处理函数参数
     return redirect(reverse("axf:marketWithParams", args=("104749", "0","0")))
 
 # 闪购详情
 def marketWithParams(request, typeid, cid, sort_rule):
 
+    # 查询所有食品类型
     foodtypes = FoodType.objects.all()
 
+    # 查询当前选中的食品类型
     foodtype_currents = FoodType.objects.filter(typeid=typeid)
 
+    # 预定义食品类型中的子类
     child_type_list = []
 
     if foodtype_currents.exists():
+
+        # 查询当前选中的食品类型（仅有一条数据）
         foodtype = foodtype_currents.first()
 
+        # 获取所有子类名称
         childtypes = foodtype.childtypenames
-
         childtypenames = childtypes.split("#")
         # ["全部分类:0","XXX:1"]
         print(childtypenames)
@@ -73,12 +78,14 @@ def marketWithParams(request, typeid, cid, sort_rule):
     # child_type_list
     # [["全部分类","0"],["进口水果","110"]]
 
+    # 根据分类查询到对应的所有商品
     if cid == "0":
         goods_list = Goods.objects.filter(categoryid=typeid)
     # typeid 和 categoryid   并且是一对多的一个关系
     else:
         goods_list = Goods.objects.filter(categoryid=typeid).filter(childcid=cid)
 
+    # 将商品按指定顺序排序
     if sort_rule == "0":
         pass
     elif sort_rule == "1":
@@ -88,7 +95,7 @@ def marketWithParams(request, typeid, cid, sort_rule):
     elif sort_rule == "3":
         goods_list = goods_list.order_by("price")
 
-
+    # 组织数据
     data = {
         "title": "闪购",
         "foodtypes": foodtypes,
@@ -97,6 +104,8 @@ def marketWithParams(request, typeid, cid, sort_rule):
         "cid": cid,
         "child_type_list": child_type_list,
     }
+
+    # 传递数据给页面并渲染
     return render(request, 'market/market.html', context= data)
 
 # 购物车

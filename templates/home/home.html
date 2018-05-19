@@ -1,18 +1,29 @@
+{# 主页 #}
+
+{# 继承父类页面 #}
 {% extends 'base_main.html' %}
+
+{# 加载静态资源:CSS,JS,图片等 #}
 {% load static %}
+
+{# 继承并填充父类内容 #}
 {% block extCSS %}
     {{ block.super }}
+    {# 引入外部样式 #}
     <link rel="stylesheet" href="{% static 'app/home/home.css' %}">
 {% endblock %}
 
+{# 引入外部脚本 #}
 {% block EXTJS %}
     <script type="text/javascript" src="{% static 'app/home/js/home.js' %}"></script>
 {% endblock %}
 
+{# 填充内容 #}
 {% block content %}
 
     <div id="home">
-        {#   顶部轮播       #}
+
+        {# 顶部轮播 #}
         <div class="swiper-container" id="topSwiper">
             <div class="swiper-wrapper">
                 {% for wheel in wheels %}
@@ -25,9 +36,9 @@
             </div>
             <!-- 如果需要分页器 -->
             <div class="swiper-pagination"></div>
-
         </div>
-        {#         导航         #}
+
+        {# 导航 #}
         <div class="topMenu">
             <nav>
                 <ul>
@@ -37,28 +48,24 @@
                             <span>{{ nav.name }}</span>
                         </li>
                     {% endfor %}
-
                 </ul>
             </nav>
         </div>
-        {#         必购     #}
+
+        {# 必购  #}
         <div id="swiperMenu" class="swiper-container">
-
             <ul class="swiper-wrapper">
-
                 {% for mustbuy in mustbuys %}
                     <li class="swiper-slide">
                         <img src="{{ mustbuy.img }}" alt="{{ mustbuy.name }}">
                     </li>
                 {% endfor %}
-
-
             </ul>
 
         </div>
-        {#          商店    #}
-        <div class="CVS">
 
+        {# 商店 #}
+        <div class="CVS">
             <h2>
                 <img src="{{ shop0.0.img }}" alt="{{ shop0.0.name }}">
             </h2>
@@ -69,7 +76,6 @@
                         <img src="{{ shop.img }}" alt="{{ shop.name }}">
                     </a>
                 {% endfor %}
-
             </fieldset>
 
             <ul>
@@ -81,7 +87,6 @@
                         </a>
                     </li>
                 {% endfor %}
-
             </ul>
 
             <ol>
@@ -97,7 +102,7 @@
 
         </div>
 
-        {#         主要显示 #}
+        {# 主要显示 #}
         <div class="mainInfo">
 
             {% for mainshow in mainshows %}
@@ -160,6 +165,7 @@
 
 
         </div>
+
     </div>
 
 {% endblock %}
