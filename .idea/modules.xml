@@ -3,6 +3,7 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/.idea/AXF.iml" filepath="$PROJECT_DIR$/.idea/AXF.iml" />
+      <module fileurl="file://$USER_HOME$/PycharmProjects/DjangoEmpty/.idea/DjangoEmpty.iml" filepath="$USER_HOME$/PycharmProjects/DjangoEmpty/.idea/DjangoEmpty.iml" />
     </modules>
   </component>
 </project>
