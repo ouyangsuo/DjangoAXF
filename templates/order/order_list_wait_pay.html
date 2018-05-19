@@ -1,0 +1,28 @@
+{% extends 'base.html' %}
+{% load static %}
+
+
+{% block content %}
+
+    <h3>待付款订单列表</h3>
+
+    <ul>
+        {% for order in orders %}
+            <li>
+                <a href="{% url 'axf:order_info' order.id %}">
+                    <p>{{ order.id }}</p>
+                    <p>{{ order.o_num }}</p>
+                    {% for ordermodel in order.ordergoodsmodel_set.all %}
+                        <li>
+                            <img src="{{ ordermodel.goods.productimg }}" alt="">
+                        </li>
+                    {% endfor %}
+                </a>
+            </li>
+        {% endfor %}
+
+
+    </ul>
+
+
+{% endblock %}
