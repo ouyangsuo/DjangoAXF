@@ -1,14 +1,16 @@
+'''
+定义路由处理逻辑
+'''
+
 import hashlib
 import uuid
-
 from django.http import HttpResponse, JsonResponse
 from django.shortcuts import render, redirect
 from django.urls import reverse
-
 from App.models import MainWheel, MainNav, MainMustBuy, MainShop, MainShow, FoodType, Goods, UserModel, CartModel, \
     OrderModel, OrderGoodsModel
 
-
+# 首页
 def home(request):
 
     wheels = MainWheel.objects.all()
@@ -42,11 +44,11 @@ def home(request):
     }
     return render(request, 'home/home.html',context= data)
 
-
+# 闪购
 def market(request):
     return redirect(reverse("axf:marketWithParams", args=("104749", "0","0")))
 
-
+# 闪购详情
 def marketWithParams(request, typeid, cid, sort_rule):
 
     foodtypes = FoodType.objects.all()
@@ -97,7 +99,7 @@ def marketWithParams(request, typeid, cid, sort_rule):
     }
     return render(request, 'market/market.html', context= data)
 
-
+# 购物车
 def cart(request):
 
     user_id = request.session.get("user_id")
@@ -122,7 +124,7 @@ def cart(request):
 
     return render(request, 'cart/cart.html', context= data)
 
-
+# 我的
 def mine(request):
 
     user_id = request.session.get("user_id")
@@ -159,7 +161,7 @@ def mine(request):
 
     return render(request, 'mine/mine.html', context= data)
 
-
+# 用户注册
 def user_register(request):
     if request.method == "GET":
         return render(request, 'user/user_register.html')
@@ -192,7 +194,7 @@ def user_register(request):
     else:
         raise Exception("不被支持的请求")
 
-
+# TODO 生成密码
 def generate_password(password):
 
     sha = hashlib.sha512()
@@ -201,12 +203,12 @@ def generate_password(password):
 
     return sha.hexdigest()
 
-
+# 用户登出
 def user_logout(request):
     request.session.flush()
     return redirect(reverse("axf:mine"))
 
-
+# 用户登录
 def user_login(request):
     if request.method == "GET":
         return render(request, 'user/user_login.html')
@@ -224,7 +226,7 @@ def user_login(request):
 
         return redirect(reverse("axf:user_login"))
 
-
+# 校验用户名是否可用
 def check_user(request):
     username = request.GET.get("username")
     users = UserModel.objects.filter(username=username)
@@ -242,7 +244,7 @@ def check_user(request):
         data["desc"] = "用户名可用"
     return JsonResponse(data)
 
-
+# 增加购物车商品数量
 def add_to_cart(request):
     goodsid = request.GET.get("goodsid")
     userid = request.session.get("user_id")
@@ -273,7 +275,7 @@ def add_to_cart(request):
 
     return JsonResponse(data)
 
-
+# 减少购物车商品数量
 def sub_to_cart(request):
     goodsid = request.GET.get("goodsid")
     userid = request.session.get("user_id")
@@ -306,7 +308,7 @@ def sub_to_cart(request):
 
     return JsonResponse(data)
 
-
+# 修改购物车状态
 def change_cart_status(request):
 
     data = {
@@ -340,7 +342,7 @@ def change_cart_status(request):
 
     return JsonResponse(data)
 
-
+# 删除购物车记录
 def sub_cart(request):
     cart_id = request.GET.get("cart_id")
 
@@ -364,7 +366,7 @@ def sub_cart(request):
 
     return JsonResponse(data)
 
-
+# 插入购物车记录
 def add_cart(request):
     cart_id = request.GET.get("cart_id")
 
@@ -385,7 +387,7 @@ def add_cart(request):
 
     return JsonResponse(data)
 
-
+# 修改购物车选中状态
 def change_cart_select(request):
     action = request.GET.get("action")
 
@@ -416,7 +418,7 @@ def change_cart_select(request):
 
     return JsonResponse(data)
 
-
+# 生成订单
 def generate_order(request):
 
     selects = request.GET.get("selects")
@@ -451,7 +453,7 @@ def generate_order(request):
 
     return JsonResponse(data=data)
 
-
+# 查看订单详情
 def order_info(request, order_id):
 
     order = OrderModel.objects.get(pk=order_id)
@@ -463,7 +465,7 @@ def order_info(request, order_id):
 
     return render(request, 'order/order_info.html', context=data)
 
-
+# 修改订单状态
 def change_order_status(request):
 
     order_id = request.GET.get("order_id")
@@ -487,7 +489,7 @@ def change_order_status(request):
 
     return JsonResponse(data=data)
 
-
+# 显示订单列表
 def order_list(request):
 
     user_id = request.session.get("user_id")
@@ -500,7 +502,7 @@ def order_list(request):
 
     return render(request, 'order/order_list_payed.html', context=data)
 
-
+# 待支付的订单列表
 def order_list_wait_pay(request):
 
     user_id = request.session.get("user_id")
